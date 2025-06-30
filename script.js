@@ -1,18 +1,8 @@
 const choice=['rock',"paper","scissor"];
-
 const getComputerChoice=()=> choice[Math.floor(Math.random()*3)];
 
-function getPlayerChoice(){
-  let userChoice=prompt("\n ***Enter your choice***  \n .Rock \n .Paper \n .Scissor ? ");
-  userChoice=userChoice.toLowerCase();
-  if(!choice.includes(userChoice)){
-     console.log("The input that you inserted is invalid,please try again ")
-    userChoice=getPlayerChoice();
-  }
-  return userChoice;
-}
 // Function to Play One Round
-function playRound(playerSelection,computerSelection){
+function playRound(playerSelection,computerSelection=getComputerChoice()){
   if(playerSelection===computerSelection){
     return"It's a tie!";
   }else if(playerSelection==="rock"&&computerSelection==="scissor"){
@@ -26,52 +16,53 @@ function playRound(playerSelection,computerSelection){
   }
 }
 
-// Function to play multiple round
-function playGame(){
-  let playerScore=0;
-  let computerScore=0;
-
-  for(let i=0;i<5;i++){
-    const playerSelection=getPlayerChoice();
-    const computerSelection=getComputerChoice();
-
-    const result=playRound(playerSelection,computerSelection);
-    console.log(result);
-    if(result.substring(0,8)==="You win!"){
-      playerScore++
-    }else if(result.substring(0,8)==="You lose"){
-      computerScore++
-    }
+//Display result 
+let result;
+ const rockFunction= ()=>{
+   result=playRound("rock");
+   displayResult(result);
   }
-  // Display final score
-  if(playerScore>computerScore){
-    console.log("You won the game!");
-  }else if(playerScore<computerScore){
-    console.log("Computer won the game!");
-  }else{
-    console.log("It's a tie game!")
+  const paperFunction= ()=>{
+    result=playRound("paper");
+    displayResult(result);
   }
-}
-
-let userGameModeInput=prompt("Set Mode Of The Game \n 1:One Round \n 2:Multiple Round")
- 
-function selectGameMode(userGameModeInput){
-  if(userGameModeInput==="1"){
-    console.log(playRound(getPlayerChoice(),getComputerChoice()));
-  }else if(userGameModeInput==="2"){
-    playGame();
-  }else{
-    console.log("Invalid input");
+  const scissorFunction= ()=>{
+    result=playRound("scissor");
+    displayResult(result);
+    displayResult('');
   }
-}
    
-selectGameMode(userGameModeInput);
+const rockBtn=document.querySelector("#rockButton");
+const paperBtn=document.querySelector("#paperButton");
+const scissorBtn=document.querySelector("#scissorButton");
 
+rockBtn.addEventListener("click",rockFunction);
+paperBtn.addEventListener("click",paperFunction);
+scissorBtn.addEventListener("click",scissorFunction);
 
     
+function displayResult(selection){
+  const div=document.createElement('div');
+  const pare=document.createElement('p');
+  pare.textContent=selection;
+  
+  div.classList='display';
+  div.appendChild(pare);
+  const divBtn=document.querySelector('.button');
+  divBtn.insertAdjacentElement('afterend',div);
+  setTimeout(()=>{
+    div.remove();
+  },1500);
+}
+
+  
 
 
-    
+
+
+
+
+
 
 
 
